@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
     public AudioSource theMusic;
@@ -15,8 +16,8 @@ public class GameManager : MonoBehaviour
 
     public int currentScore;
     public int scorePerNote = 100;
-    public int scorePerGoodNote = 125;
-    public int scorePerPerfectNote = 200;
+    public int scorePerGoodNote = 200;
+    public int scorePerPerfectNote = 600;
 
     public int currentMultiplier;
     public int multiplierTracker;
@@ -32,7 +33,10 @@ public class GameManager : MonoBehaviour
     public float perfectHits;
     public float missedHits;
 
+    public GameObject startScreen;
+    public GameObject noteHolder;
     public GameObject resultScreen;
+    public GameObject gameOverScreen;
     public Text percentHitText, normalsText, goodsText, perfectsText, missesText, rankText, finalScoreText;
 
     // Start is called before the first frame update
@@ -54,6 +58,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.anyKeyDown)
             {
+                startScreen.SetActive(false);
                 startPlaying = true;
                 theBS.hasStarted = true;
 
@@ -102,6 +107,11 @@ public class GameManager : MonoBehaviour
                 rankText.text = rankVal;
 
                 finalScoreText.text = currentScore.ToString();
+            }else if (missedHits == 6)
+            {
+                gameOverScreen.SetActive(true);
+                noteHolder.GetComponent<BeatScroller>().enabled = false;
+                theMusic.Stop();
             }
         }
     }
@@ -154,4 +164,6 @@ public class GameManager : MonoBehaviour
         multiplierTracker = 0;
         missedHits++;
     }
+
+
 }
